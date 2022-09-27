@@ -20,15 +20,16 @@ int main() {
     }
 
 #pragma omp parallel for default(none), shared(a, sum1)
-    for (int i = 0; i < a.size(); i++)
+    for (int i = 0; i < a.size(); i++) {
         sum1 += a[i];
-
-#pragma omp parallel for reduction(-:sum2) default(none), shared(a)
+    }
+    printf("\n");
+#pragma omp parallel for reduction(+:sum2) default(none), shared(a)
     for (int i = 0; i < a.size(); i++) {
         sum2 += a[i];
-        printf("i = %d, thread - %d, total - %d, sum = %d \n", i , omp_get_thread_num(), omp_get_num_threads(), sum2);
+        printf("%d ", a[i]);
     }
 
-    printf("sum1: %d, sum2: %d, real sum: %d", sum1, sum2, real_sum);
+    printf("\n \nsum1: %d, sum2: %d, real sum: %d", sum1, sum2, real_sum);
     return 0;
 }
